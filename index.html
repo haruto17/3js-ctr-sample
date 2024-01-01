@@ -125,7 +125,17 @@
 
           // Yボタン押下 -> y軸回転
           if (input[4].button == 1) {
-             cube_mesh.rotation.y += 0.02;
+            cube_mesh.rotation.y += 0.02;
+          }
+        }
+
+        if (ctr1Model.motionController) {
+          var json = JSON.stringify(ctr1Model.motionController.data, null, " ");
+          var input = JSON.parse(json);
+
+          // Aボタン押下 -> z軸回転
+          if (input[3].button == 1) {
+            cube_mesh.rotation.z += 0.02;
           }
         }
         renderer.render(scene, camera);
