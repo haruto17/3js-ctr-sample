@@ -137,6 +137,13 @@
           if (input[3].button == 1) {
             cube_mesh.rotation.z += 0.02;
           }
+
+          // Bボタン押下 -> 回転リセット
+          if (input[4].button == 1) {
+            cube_mesh.rotation.x = 0;
+            cube_mesh.rotation.y = 0;
+            cube_mesh.rotation.z = 0;
+          }
         }
         renderer.render(scene, camera);
       }
