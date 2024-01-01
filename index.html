@@ -123,6 +123,11 @@
             cube_mesh.rotation.x += 0.02;
           }
 
+          // Yボタン押下 -> y軸回転
+          if (input[4].button == 1) {
+             cube_mesh.rotation.y += 0.02;
+          }
+
           // console.log(input[0].id, input[0].state, input[0].button);
           // console.log(input[1].id, input[1].state, input[1].button);
           // console.log(
