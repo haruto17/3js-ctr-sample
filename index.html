@@ -150,6 +150,11 @@
           } else if (input[2].yAxis <= -0.9) {
             cube_mesh.position.y += 0.02;
           }
+
+          // squeeze -> z軸方向マイナス
+          if (input[1].state == "pressed") {
+            cube_mesh.position.z -= 0.02;
+          } 
         }
 
         if (ctr1Model.motionController) {
@@ -174,6 +179,11 @@
             cube_mesh.scale.y += 0.02;
             cube_mesh.scale.z += 0.02;
           }
+        
+          // squeeze -> z軸方向プラス
+          if (input[1].state == "pressed") {
+            cube_mesh.position.z += 0.02;
+          } 
         }
 
         renderer.render(scene, camera);
