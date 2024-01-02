@@ -112,6 +112,11 @@
       const lightHelper = new THREE.DirectionalLightHelper(light1);
       scene.add(lightHelper);
 
+      function genColor() {
+        const color = Math.floor(Math.random() * 16777215).toString(16);
+        return color;
+      }
+
       // 毎フレーム実行
       function tick() {
         lightHelper.update();
@@ -149,6 +154,10 @@
             cube_mesh.position.y -= 0.02;
           } else if (input[2].yAxis <= -0.9) {
             cube_mesh.position.y += 0.02;
+          }
+
+          if (input[2].button == 1) {
+            cube_material.color.setHex("0x" + genColor());
           }
 
           // squeeze -> z軸方向マイナス
