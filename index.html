@@ -159,11 +159,11 @@
             cube_mesh.position.y += 0.02;
           }
 
+          // ジョイスティック押下 -> オブジェクトの色をランダムに変更
           if (push_left_thumbstk == false && input[2].button == 1) {
             cube_material.color.setHex("0x" + genColor());
             push_left_thumbstk = true;
           }
-
           if (push_left_thumbstk == true && input[2].button == 0) {
             push_left_thumbstk = false;
           }
