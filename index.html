@@ -197,6 +197,15 @@
             cube_mesh.scale.z += 0.02;
           }
 
+          // ジョイスティック押下 -> 背景色をランダムに変更
+          if (push_right_thumbstk == false && input[2].button == 1) {
+            scene.background.setHex("0x" + genColor());
+            push_right_thumbstk = true;
+          }
+          if (push_right_thumbstk == true && input[2].button == 0) {
+            push_right_thumbstk = false;
+          }
+
           // squeeze -> z軸方向プラス
           if (input[1].state == "pressed") {
             cube_mesh.position.z += 0.02;
