@@ -117,6 +117,9 @@
         return color;
       }
 
+      var push_left_thumbstk = false;
+      var push_right_thumbstk = false;
+
       // 毎フレーム実行
       function tick() {
         lightHelper.update();
@@ -156,14 +159,19 @@
             cube_mesh.position.y += 0.02;
           }
 
-          if (input[2].button == 1) {
+          if (push_left_thumbstk == false && input[2].button == 1) {
             cube_material.color.setHex("0x" + genColor());
+            push_left_thumbstk = true;
+          }
+
+          if (push_left_thumbstk == true && input[2].button == 0) {
+            push_left_thumbstk = false;
           }
 
           // squeeze -> z軸方向マイナス
           if (input[1].state == "pressed") {
             cube_mesh.position.z -= 0.02;
-          } 
+          }
         }
 
         if (ctr1Model.motionController) {
@@ -188,11 +196,11 @@
             cube_mesh.scale.y += 0.02;
             cube_mesh.scale.z += 0.02;
           }
-        
+
           // squeeze -> z軸方向プラス
           if (input[1].state == "pressed") {
             cube_mesh.position.z += 0.02;
-          } 
+          }
         }
 
         renderer.render(scene, camera);
