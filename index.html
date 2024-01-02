@@ -119,6 +119,8 @@
 
       var push_left_thumbstk = false;
       var push_right_thumbstk = false;
+      var touch_left_thumbrest = false;
+      var touch_right_thumbrest = false;
 
       // 毎フレーム実行
       function tick() {
@@ -172,6 +174,15 @@
           if (input[1].state == "pressed") {
             cube_mesh.position.z -= 0.02;
           }
+
+          // thumbrest -> light1の色変更
+          if (touch_left_thumbrest ==false && input[5].state == "touched") {
+            light1.color.setHex("0x" + genColor());
+            touch_left_thumbrest = true;
+          }
+          if (touch_left_thumbrest == true && input[5].state == "default") {
+            touch_left_thumbrest = false;
+          }
         }
 
         if (ctr1Model.motionController) {
@@ -223,6 +234,15 @@
           // squeeze -> z軸方向プラス
           if (input[1].state == "pressed") {
             cube_mesh.position.z += 0.02;
+          }
+
+          // thumbrest -> light0の色変更
+          if (touch_right_thumbrest ==false && input[5].state == "touched") {
+            light0.color.setHex("0x" + genColor());
+            touch_right_thumbrest = true;
+          }
+          if (touch_right_thumbrest == true && input[5].state == "default") {
+            touch_right_thumbrest = false;
           }
         }
 
