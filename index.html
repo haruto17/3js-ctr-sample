@@ -36,7 +36,9 @@
       // カメラの作成
       const camera = new THREE.PerspectiveCamera(
         80,
-        window.innerWidth / window.innerHeight
+        window.innerWidth / window.innerHeight,
+        0.1,
+        1000
       );
 
       // カメラ用コンテナの作成
@@ -103,19 +105,163 @@
       scene.add(light0);
 
       // ディレクションライト
-      const light1 = new THREE.DirectionalLight(0xffff00, 10.0);
+      const light1 = new THREE.DirectionalLight(0xffffff, 10.0);
       scene.add(light1);
 
       // 照明を可視化するヘルパー
       const lightHelper = new THREE.DirectionalLightHelper(light1);
       scene.add(lightHelper);
 
+      function genColor() {
+        const color = Math.floor(Math.random() * 16777215).toString(16);
+        return color;
+      }
+
+      function resetAll() {
+        scene.background.setHex(0xb0c4de);
+        cube_material.color.setHex(0xffffff);
+        cube_mesh.position.x = 0;
+        cube_mesh.position.y = 0;
+        cube_mesh.position.z = 0;
+        cube_mesh.rotation.x = 0;
+        cube_mesh.rotation.y = 0;
+        cube_mesh.rotation.z = 0;
+        cube_mesh.scale.x = 1;
+        cube_mesh.scale.y = 1;
+        cube_mesh.scale.z = 1;
+        light0.color.setHex(0xffffff);
+        light1.color.setHex(0xffffff);
+        light1.position.x = 0;
+        light1.position.y = 0;
+      }
+
+      var push_left_thumbstk = false;
+      var push_right_thumbstk = false;
+      var touch_left_thumbrest = false;
+      var touch_right_thumbrest = false;
+
       // 毎フレーム実行
       function tick() {
-        cube_mesh.rotation.x += 0.01;
-        cube_mesh.rotation.y += 0.01;
-        cube_mesh.rotation.z += 0.01;
         lightHelper.update();
+
+        if (ctr0Model.motionController) {
+          var json = JSON.stringify(ctr0Model.motionController.data, null, " ");
+          var input = JSON.parse(json);
+
+          // Xボタン押下 -> x軸回転
+          if (input[3].button == 1) {
+            cube_mesh.rotation.x += 0.02;
+          }
+
+          // Yボタン押下 -> y軸回転
+          if (input[4].button == 1) {
+            cube_mesh.rotation.y += 0.02;
+          }
+
+          // 左トリガー -> オブジェクトの縮小
+          if (input[0].button == 1) {
+            cube_mesh.scale.x -= 0.02;
+            cube_mesh.scale.y -= 0.02;
+            cube_mesh.scale.z -= 0.02;
+          }
+
+          // ジョイスティック左右 -> オブジェクトをx軸方向に移動
+          if (input[2].xAxis >= 0.9) {
+            cube_mesh.position.x += 0.02;
+          } else if (input[2].xAxis <= -0.9) {
+            cube_mesh.position.x -= 0.02;
+          }
+
+          // ジョイスティック上下 -> オブジェクトをy軸方向に移動
+          if (input[2].yAxis >= 0.9) {
+            cube_mesh.position.y -= 0.02;
+          } else if (input[2].yAxis <= -0.9) {
+            cube_mesh.position.y += 0.02;
+          }
+
+          // ジョイスティック押下 -> オブジェクトの色をランダムに変更
+          if (push_left_thumbstk == false && input[2].button == 1) {
+            cube_material.color.setHex("0x" + genColor());
+            push_left_thumbstk = true;
+          }
+          if (push_left_thumbstk == true && input[2].button == 0) {
+            push_left_thumbstk = false;
+          }
+
+          // squeeze -> z軸方向マイナス
+          if (input[1].state == "pressed") {
+            cube_mesh.position.z -= 0.02;
+          }
+
+          // thumbrest -> light1の色変更
+          if (touch_left_thumbrest == false && input[5].state == "touched") {
+            light1.color.setHex("0x" + genColor());
+            touch_left_thumbrest = true;
+          }
+          if (touch_left_thumbrest == true && input[5].state == "default") {
+            touch_left_thumbrest = false;
+          }
+        }
+
+        if (ctr1Model.motionController) {
+          var json = JSON.stringify(ctr1Model.motionController.data, null, " ");
+          var input = JSON.parse(json);
+
+          // Aボタン押下 -> z軸回転
+          if (input[3].button == 1) {
+            cube_mesh.rotation.z += 0.02;
+          }
+
+          // Bボタン押下 -> 回転リセット
+          if (input[4].button == 1) {
+            resetAll();
+          }
+
+          // 右トリガー -> オブジェクトの拡大
+          if (input[0].button == 1) {
+            cube_mesh.scale.x += 0.02;
+            cube_mesh.scale.y += 0.02;
+            cube_mesh.scale.z += 0.02;
+          }
+
+          // ジョイスティック左右 -> light1をx軸方向に移動
+          if (input[2].xAxis >= 0.9) {
+            light1.position.x += 0.02;
+          } else if (input[2].xAxis <= -0.9) {
+            light1.position.x -= 0.02;
+          }
+
+          // ジョイスティック上下 -> light1をy軸方向に移動
+          if (input[2].yAxis >= 0.9) {
+            light1.position.y -= 0.02;
+          } else if (input[2].yAxis <= -0.9) {
+            light1.position.y += 0.02;
+          }
+
+          // ジョイスティック押下 -> 背景色をランダムに変更
+          if (push_right_thumbstk == false && input[2].button == 1) {
+            scene.background.setHex("0x" + genColor());
+            push_right_thumbstk = true;
+          }
+          if (push_right_thumbstk == true && input[2].button == 0) {
+            push_right_thumbstk = false;
+          }
+
+          // squeeze -> z軸方向プラス
+          if (input[1].state == "pressed") {
+            cube_mesh.position.z += 0.02;
+          }
+
+          // thumbrest -> light0の色変更
+          if (touch_right_thumbrest == false && input[5].state == "touched") {
+            light0.color.setHex("0x" + genColor());
+            touch_right_thumbrest = true;
+          }
+          if (touch_right_thumbrest == true && input[5].state == "default") {
+            touch_right_thumbrest = false;
+          }
+        }
+
         renderer.render(scene, camera);
       }
       renderer.setAnimationLoop(tick);
