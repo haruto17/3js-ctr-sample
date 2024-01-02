@@ -147,14 +147,14 @@
             cube_mesh.scale.z -= 0.02;
           }
 
-          // ジョイスティック左右 -> x軸方向に移動
+          // ジョイスティック左右 -> オブジェクトをx軸方向に移動
           if (input[2].xAxis >= 0.9) {
             cube_mesh.position.x += 0.02;
           } else if (input[2].xAxis <= -0.9) {
             cube_mesh.position.x -= 0.02;
           }
 
-          // ジョイスティック上下 -> y軸方向に移動
+          // ジョイスティック上下 -> オブジェクトをy軸方向に移動
           if (input[2].yAxis >= 0.9) {
             cube_mesh.position.y -= 0.02;
           } else if (input[2].yAxis <= -0.9) {
@@ -208,14 +208,14 @@
             cube_mesh.scale.z += 0.02;
           }
 
-          // ジョイスティック左右 -> x軸方向に移動
+          // ジョイスティック左右 -> light1をx軸方向に移動
           if (input[2].xAxis >= 0.9) {
             light1.position.x += 0.02;
           } else if (input[2].xAxis <= -0.9) {
             light1.position.x -= 0.02;
           }
 
-          // ジョイスティック上下 -> y軸方向に移動
+          // ジョイスティック上下 -> light1をy軸方向に移動
           if (input[2].yAxis >= 0.9) {
             light1.position.y -= 0.02;
           } else if (input[2].yAxis <= -0.9) {
