@@ -105,7 +105,7 @@
       scene.add(light0);
 
       // ディレクションライト
-      const light1 = new THREE.DirectionalLight(0xffff00, 10.0);
+      const light1 = new THREE.DirectionalLight(0xffffff, 10.0);
       scene.add(light1);
 
       // 照明を可視化するヘルパー
@@ -115,6 +115,24 @@
       function genColor() {
         const color = Math.floor(Math.random() * 16777215).toString(16);
         return color;
+      }
+
+      function resetAll() {
+        scene.background.setHex(0xb0c4de);
+        cube_material.color.setHex(0xffffff);
+        cube_mesh.position.x = 0;
+        cube_mesh.position.y = 0;
+        cube_mesh.position.z = 0;
+        cube_mesh.rotation.x = 0;
+        cube_mesh.rotation.y = 0;
+        cube_mesh.rotation.z = 0;
+        cube_mesh.scale.x = 1;
+        cube_mesh.scale.y = 1;
+        cube_mesh.scale.z = 1;
+        light0.color.setHex(0xffffff);
+        light1.color.setHex(0xffffff);
+        light1.position.x = 0;
+        light1.position.y = 0;
       }
 
       var push_left_thumbstk = false;
@@ -176,7 +194,7 @@
           }
 
           // thumbrest -> light1の色変更
-          if (touch_left_thumbrest ==false && input[5].state == "touched") {
+          if (touch_left_thumbrest == false && input[5].state == "touched") {
             light1.color.setHex("0x" + genColor());
             touch_left_thumbrest = true;
           }
@@ -196,9 +214,7 @@
 
           // Bボタン押下 -> 回転リセット
           if (input[4].button == 1) {
-            cube_mesh.rotation.x = 0;
-            cube_mesh.rotation.y = 0;
-            cube_mesh.rotation.z = 0;
+            resetAll();
           }
 
           // 右トリガー -> オブジェクトの拡大
@@ -237,7 +253,7 @@
           }
 
           // thumbrest -> light0の色変更
-          if (touch_right_thumbrest ==false && input[5].state == "touched") {
+          if (touch_right_thumbrest == false && input[5].state == "touched") {
             light0.color.setHex("0x" + genColor());
             touch_right_thumbrest = true;
           }
