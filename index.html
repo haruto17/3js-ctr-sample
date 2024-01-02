@@ -127,6 +127,13 @@
           if (input[4].button == 1) {
             cube_mesh.rotation.y += 0.02;
           }
+
+          // 左トリガー -> オブジェクトの縮小
+          if (input[0].button == 1) {
+            cube_mesh.scale.x -= 0.02;
+            cube_mesh.scale.y -= 0.02;
+            cube_mesh.scale.z -= 0.02;
+          }
         }
 
         if (ctr1Model.motionController) {
@@ -143,6 +150,13 @@
             cube_mesh.rotation.x = 0;
             cube_mesh.rotation.y = 0;
             cube_mesh.rotation.z = 0;
+          }
+
+          // 右トリガー -> オブジェクトの拡大
+          if (input[0].button == 1) {
+            cube_mesh.scale.x += 0.02;
+            cube_mesh.scale.y += 0.02;
+            cube_mesh.scale.z += 0.02;
           }
         }
         renderer.render(scene, camera);
